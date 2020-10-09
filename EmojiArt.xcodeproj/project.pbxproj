@@ -7,19 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43C7CCBF25300278006FA570 /* EmojiArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7CCBE25300278006FA570 /* EmojiArt.swift */; };
+		43C7CCC225300884006FA570 /* EmojiArtExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7CCC125300884006FA570 /* EmojiArtExtensions.swift */; };
+		43C7CCC725300AAE006FA570 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 43C7CCC625300AAE006FA570 /* .swiftlint.yml */; };
 		43F12AD4252FF7D900CD1063 /* EmojiArtApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F12AD3252FF7D900CD1063 /* EmojiArtApp.swift */; };
-		43F12AD6252FF7D900CD1063 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F12AD5252FF7D900CD1063 /* ContentView.swift */; };
+		43F12AD6252FF7D900CD1063 /* EmojiArtDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F12AD5252FF7D900CD1063 /* EmojiArtDocumentView.swift */; };
 		43F12AD8252FF7DC00CD1063 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43F12AD7252FF7DC00CD1063 /* Assets.xcassets */; };
 		43F12ADB252FF7DC00CD1063 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43F12ADA252FF7DC00CD1063 /* Preview Assets.xcassets */; };
+		43F12AE4252FF95000CD1063 /* EmojiArtDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F12AE3252FF95000CD1063 /* EmojiArtDocument.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		43C7CCBE25300278006FA570 /* EmojiArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArt.swift; sourceTree = "<group>"; };
+		43C7CCC125300884006FA570 /* EmojiArtExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArtExtensions.swift; sourceTree = "<group>"; };
+		43C7CCC625300AAE006FA570 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
 		43F12AD0252FF7D900CD1063 /* EmojiArt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmojiArt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43F12AD3252FF7D900CD1063 /* EmojiArtApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtApp.swift; sourceTree = "<group>"; };
-		43F12AD5252FF7D900CD1063 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		43F12AD5252FF7D900CD1063 /* EmojiArtDocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtDocumentView.swift; sourceTree = "<group>"; };
 		43F12AD7252FF7DC00CD1063 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		43F12ADA252FF7DC00CD1063 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		43F12ADC252FF7DC00CD1063 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43F12AE3252FF95000CD1063 /* EmojiArtDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtDocument.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,10 +61,14 @@
 			isa = PBXGroup;
 			children = (
 				43F12AD3252FF7D900CD1063 /* EmojiArtApp.swift */,
-				43F12AD5252FF7D900CD1063 /* ContentView.swift */,
+				43F12AD5252FF7D900CD1063 /* EmojiArtDocumentView.swift */,
+				43F12AE3252FF95000CD1063 /* EmojiArtDocument.swift */,
+				43C7CCC125300884006FA570 /* EmojiArtExtensions.swift */,
 				43F12AD7252FF7DC00CD1063 /* Assets.xcassets */,
 				43F12ADC252FF7DC00CD1063 /* Info.plist */,
 				43F12AD9252FF7DC00CD1063 /* Preview Content */,
+				43C7CCBE25300278006FA570 /* EmojiArt.swift */,
+				43C7CCC625300AAE006FA570 /* .swiftlint.yml */,
 			);
 			path = EmojiArt;
 			sourceTree = "<group>";
@@ -79,6 +91,7 @@
 				43F12ACC252FF7D900CD1063 /* Sources */,
 				43F12ACD252FF7D900CD1063 /* Frameworks */,
 				43F12ACE252FF7D900CD1063 /* Resources */,
+				43C7CCC425300A10006FA570 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -126,6 +139,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43C7CCC725300AAE006FA570 /* .swiftlint.yml in Resources */,
 				43F12ADB252FF7DC00CD1063 /* Preview Assets.xcassets in Resources */,
 				43F12AD8252FF7DC00CD1063 /* Assets.xcassets in Resources */,
 			);
@@ -133,12 +147,35 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		43C7CCC425300A10006FA570 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		43F12ACC252FF7D900CD1063 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43F12AD6252FF7D900CD1063 /* ContentView.swift in Sources */,
+				43C7CCBF25300278006FA570 /* EmojiArt.swift in Sources */,
+				43C7CCC225300884006FA570 /* EmojiArtExtensions.swift in Sources */,
+				43F12AD6252FF7D900CD1063 /* EmojiArtDocumentView.swift in Sources */,
+				43F12AE4252FF95000CD1063 /* EmojiArtDocument.swift in Sources */,
 				43F12AD4252FF7D900CD1063 /* EmojiArtApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
