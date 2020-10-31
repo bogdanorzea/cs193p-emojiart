@@ -10,7 +10,18 @@ import SwiftUI
 class EmojiArtDocument: ObservableObject {
     static let pallete = "🍭🚗🚜⚛️🕐🇪🇺"
 
-    @Published private var emojiArt = EmojiArt()
+    @Published private var emojiArt: EmojiArt {
+        didSet {
+            UserDefaults.standard.set(emojiArt.json, forKey: EmojiArtDocument.untitled)
+        }
+    }
+
+    init() {
+        emojiArt = EmojiArt(json: UserDefaults.standard.data(forKey: EmojiArtDocument.untitled)) ?? EmojiArt()
+        fetchBackgroundImageData()
+    }
+
+    static private let untitled = "EmojiArtDocument.Untitled"
 
     @Published private(set) var backgroundImage: UIImage?
 
