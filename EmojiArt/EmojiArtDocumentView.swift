@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EmojiArtDocumentView: View {
     @ObservedObject var document: EmojiArtDocument
+    @State var selectedEmojis = Set<EmojiArt.Emoji>()
 
     var body: some View {
         VStack {
@@ -34,7 +35,36 @@ struct EmojiArtDocumentView: View {
                     ForEach(self.document.emojis) { emoji in
                         Text(emoji.text)
                             .font(animatableWithSize: emoji.fontSize * self.zoomScale)
+                            .overlay(
+                                Group {
+                                    if selectedEmojis.contains(emoji) {
+                                        ZStack(alignment: .trailing) {
+                                            RoundedRectangle(cornerRadius: 8).stroke(Color.blue, lineWidth: 4)
+                                            GeometryReader { geometry in
+                                                Button(action: {
+                                                        removeEmoji(emoji)
+                                                }, label: {
+                                                    ZStack {
+                                                        Circle().fill(Color.blue)
+                                                        Text("X")
+                                                        Image(systemName: "xmark")
+                                                            .resizable()
+                                                            .frame(width: geometry.size.width/10, height: geometry.size.width/10, alignment: .center)
+                                                            .foregroundColor(.white)
+                                                    }
+                                                })
+                                                .frame(width: geometry.size.width/5, height: geometry.size.width/5)
+                                                .position(x: geometry.size.width, y: CGFloat(0))
+                                            }
+                                        }
+                                    } else {
+                                        EmptyView()
+                                    }
+                            })
                             .position(self.position(for: emoji, in: geometry.size))
+                            .onTapGesture {
+                                self.toggleEmojiSelection(emoji)
+                            }
                     }
                 }
                 .clipped()
@@ -53,7 +83,20 @@ struct EmojiArtDocumentView: View {
         }
     }
 
-    // MARK: - Zoom gesture
+    // MARK: - Emoji gestures
+    func toggleEmojiSelection(_ emoji: EmojiArt.Emoji) {
+        if selectedEmojis.contains(emoji) {
+            selectedEmojis.remove(emoji)
+        } else {
+            selectedEmojis.insert(emoji)
+        }
+    }
+
+    func removeEmoji(_ emoji: EmojiArt.Emoji) {
+        self.document.removeEmoji(emoji)
+    }
+
+    // MARK: - Zoom gestures
     @State private var steadyStateZoomScale: CGFloat = 1.0
     @GestureState private var gestureZoomScale: CGFloat = 1.0
     private var zoomScale: CGFloat {
@@ -89,9 +132,12 @@ struct EmojiArtDocumentView: View {
                     self.zoomToFit(self.document.backgroundImage, in: size)
                 }
             }
+            .exclusively(before: TapGesture(count: 1).onEnded {
+                selectedEmojis.removeAll()
+            })
     }
 
-    // MARK: - Pan gesture
+    // MARK: - Pan gestures
     @State private var steadyStatePanOffset: CGSize = .zero
     @GestureState private var gesturePanOffset: CGSize = .zero
 
