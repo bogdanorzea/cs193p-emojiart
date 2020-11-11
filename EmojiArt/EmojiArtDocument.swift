@@ -10,6 +10,19 @@ import SwiftUI
 class EmojiArtDocument: ObservableObject {
     static let pallete = "🍭🚗🚜⚛️🕐🇪🇺"
 
+    static private let minEmojiSize = 10
+    static private let maxEmojiSize  = 100
+
+    static private func normalizeEmojiSize(_ size: Int) -> Int {
+        if size < EmojiArtDocument.minEmojiSize {
+            return EmojiArtDocument.minEmojiSize
+        } else if size > EmojiArtDocument.maxEmojiSize {
+            return EmojiArtDocument.maxEmojiSize
+        } else {
+            return size
+        }
+    }
+
     @Published private var emojiArt: EmojiArt {
         didSet {
             UserDefaults.standard.set(emojiArt.json, forKey: EmojiArtDocument.untitled)
@@ -41,7 +54,9 @@ class EmojiArtDocument: ObservableObject {
 
     func scaleEmoji(_ emoji: EmojiArt.Emoji, by scale: CGFloat) {
         if let index = emojiArt.emojis.firstIndex(matching: emoji) {
-            emojiArt.emojis[index].size = Int((CGFloat(emojiArt.emojis[index].size) * scale).rounded(.toNearestOrEven))
+            let newSize = Int((CGFloat(emojiArt.emojis[index].size) * scale).rounded(.toNearestOrEven))
+
+            emojiArt.emojis[index].size = EmojiArtDocument.normalizeEmojiSize(newSize)
         }
     }
 

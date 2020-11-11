@@ -34,7 +34,7 @@ struct EmojiArtDocumentView: View {
 
                     ForEach(self.document.emojis) { emoji in
                         Text(emoji.text)
-                            .font(animatableWithSize: emoji.fontSize * self.zoomScale)
+                            .font(animatableWithSize: size(for: emoji))
                             .overlay(
                                 Group {
                                     if selectedEmojis.contains(emoji) {
@@ -46,7 +46,6 @@ struct EmojiArtDocumentView: View {
                                                 }, label: {
                                                     ZStack {
                                                         Circle().fill(Color.blue)
-                                                        Text("X")
                                                         Image(systemName: "xmark")
                                                             .resizable()
                                                             .frame(width: geometry.size.width/10, height: geometry.size.width/10, alignment: .center)
@@ -85,11 +84,7 @@ struct EmojiArtDocumentView: View {
 
     // MARK: - Emoji gestures
     func toggleEmojiSelection(_ emoji: EmojiArt.Emoji) {
-        if selectedEmojis.contains(emoji) {
-            selectedEmojis.remove(emoji)
-        } else {
-            selectedEmojis.insert(emoji)
-        }
+        self.selectedEmojis.toggleMatching(emoji)
     }
 
     func removeEmoji(_ emoji: EmojiArt.Emoji) {
@@ -99,8 +94,21 @@ struct EmojiArtDocumentView: View {
     // MARK: - Zoom gestures
     @State private var steadyStateZoomScale: CGFloat = 1.0
     @GestureState private var gestureZoomScale: CGFloat = 1.0
+
     private var zoomScale: CGFloat {
-        steadyStateZoomScale * gestureZoomScale
+        if selectedEmojis.count == 0 {
+            return steadyStateZoomScale * gestureZoomScale
+        }
+
+        return steadyStateZoomScale
+    }
+
+    private func size(for emoji: EmojiArt.Emoji) -> CGFloat {
+        if selectedEmojis.contains(emoji) {
+            return emoji.fontSize * steadyStateZoomScale * gestureZoomScale
+        }
+
+        return emoji.fontSize * zoomScale
     }
 
     private func zoomToFit(_ uiImage: UIImage?, in size: CGSize) {
@@ -116,12 +124,21 @@ struct EmojiArtDocumentView: View {
     private func zoomGesture() -> some Gesture {
         MagnificationGesture()
             .updating($gestureZoomScale) { latestGestureScale, gestureZoomScale, _ in
-                // gestureZoomScale is an in-out parameter
                 gestureZoomScale = latestGestureScale
             }
             .onEnded { gestureScale in
-                self.steadyStateZoomScale *= gestureScale
+                if selectedEmojis.count == 0 {
+                    self.steadyStateZoomScale *= gestureScale
+                } else {
+                    scaleSelectedEmojis(by: gestureScale)
+                }
             }
+    }
+
+    private func scaleSelectedEmojis(by scale: CGFloat) {
+        selectedEmojis.forEach { emoji in
+            self.document.scaleEmoji(emoji, by: scale)
+        }
     }
 
     // MARK: - Double tap gesture
@@ -180,6 +197,16 @@ struct EmojiArtDocumentView: View {
     }
 
     private let defaultEmojiSize: CGFloat = 40
+}
+
+extension Set {
+    mutating func toggleMatching(_ item: Element) {
+        if self.contains(item) {
+            self.remove(item)
+        } else {
+            self.insert(item)
+        }
+    }
 }
 
 struct EmojiArtDocumentView_Previews: PreviewProvider {
