@@ -35,35 +35,12 @@ struct EmojiArtDocumentView: View {
                     ForEach(self.document.emojis) { emoji in
                         Text(emoji.text)
                             .font(animatableWithSize: size(for: emoji))
-                            .overlay(
-                                Group {
-                                    if selectedEmojis.contains(emoji) {
-                                        ZStack(alignment: .trailing) {
-                                            RoundedRectangle(cornerRadius: 8).stroke(Color.blue, lineWidth: 4)
-                                            GeometryReader { geometry in
-                                                Button(action: {
-                                                        removeEmoji(emoji)
-                                                }, label: {
-                                                    ZStack {
-                                                        Circle().fill(Color.blue)
-                                                        Image(systemName: "xmark")
-                                                            .resizable()
-                                                            .frame(width: geometry.size.width/10, height: geometry.size.width/10, alignment: .center)
-                                                            .foregroundColor(.white)
-                                                    }
-                                                })
-                                                .frame(width: geometry.size.width/5, height: geometry.size.width/5)
-                                                .position(x: geometry.size.width, y: CGFloat(0))
-                                            }
-                                        }
-                                    } else {
-                                        EmptyView()
-                                    }
-                            })
-                            .position(self.position(for: emoji, in: geometry.size))
-                            .onTapGesture {
-                                self.toggleEmojiSelection(emoji)
+                            .borderedWithDeleteButton(borderVisible: selectedEmojis.contains(matching: emoji)) {
+                                self.removeEmoji(emoji)
                             }
+                            .position(self.position(for: emoji, in: geometry.size))
+                            .onTapGesture { self.toggleEmojiSelection(emoji) }
+                            .gesture(self.onDragEmoji())
                     }
                 }
                 .clipped()
@@ -89,6 +66,25 @@ struct EmojiArtDocumentView: View {
 
     func removeEmoji(_ emoji: EmojiArt.Emoji) {
         self.document.removeEmoji(emoji)
+    }
+
+    @GestureState private var gestureEmojiPanOffset: CGSize = .zero
+    func onDragEmoji() -> some Gesture {
+        DragGesture()
+            .updating($gestureEmojiPanOffset) { latestDragGestureValue, gestureEmojiPanOffset, _ in
+                gestureEmojiPanOffset = latestDragGestureValue.translation / self.zoomScale
+            }
+            .onEnded { finalDragGestureValue in
+                let offset = finalDragGestureValue.translation / self.zoomScale
+
+                self.moveSelectedEmojis(by: offset)
+            }
+    }
+
+    private func moveSelectedEmojis(by offset: CGSize) {
+        selectedEmojis.forEach { emoji in
+            self.document.moveEmoji(emoji, by: offset)
+        }
     }
 
     // MARK: - Zoom gestures
@@ -199,9 +195,9 @@ struct EmojiArtDocumentView: View {
     private let defaultEmojiSize: CGFloat = 40
 }
 
-extension Set {
+extension Set where Element: Identifiable {
     mutating func toggleMatching(_ item: Element) {
-        if self.contains(item) {
+        if self.contains(matching: item) {
             self.remove(item)
         } else {
             self.insert(item)

@@ -12,6 +12,7 @@
 		43C7CCBF25300278006FA570 /* EmojiArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7CCBE25300278006FA570 /* EmojiArt.swift */; };
 		43C7CCC225300884006FA570 /* EmojiArtExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7CCC125300884006FA570 /* EmojiArtExtensions.swift */; };
 		43C7CCC725300AAE006FA570 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 43C7CCC625300AAE006FA570 /* .swiftlint.yml */; };
+		43EFCE4925637E85000E391A /* BorderedWithDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EFCE4825637E85000E391A /* BorderedWithDeleteButton.swift */; };
 		43F12AD4252FF7D900CD1063 /* EmojiArtApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F12AD3252FF7D900CD1063 /* EmojiArtApp.swift */; };
 		43F12AD6252FF7D900CD1063 /* EmojiArtDocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F12AD5252FF7D900CD1063 /* EmojiArtDocumentView.swift */; };
 		43F12AD8252FF7DC00CD1063 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43F12AD7252FF7DC00CD1063 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 		43C7CCBE25300278006FA570 /* EmojiArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArt.swift; sourceTree = "<group>"; };
 		43C7CCC125300884006FA570 /* EmojiArtExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArtExtensions.swift; sourceTree = "<group>"; };
 		43C7CCC625300AAE006FA570 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
+		43EFCE4825637E85000E391A /* BorderedWithDeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedWithDeleteButton.swift; sourceTree = "<group>"; };
 		43F12AD0252FF7D900CD1063 /* EmojiArt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmojiArt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43F12AD3252FF7D900CD1063 /* EmojiArtApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtApp.swift; sourceTree = "<group>"; };
 		43F12AD5252FF7D900CD1063 /* EmojiArtDocumentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtDocumentView.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				43B90C92254C505A00D15240 /* AnimatableSystemFontModifier.swift */,
+				43EFCE4825637E85000E391A /* BorderedWithDeleteButton.swift */,
 				43F12AD3252FF7D900CD1063 /* EmojiArtApp.swift */,
 				43F12AD5252FF7D900CD1063 /* EmojiArtDocumentView.swift */,
 				43F12AE3252FF95000CD1063 /* EmojiArtDocument.swift */,
@@ -178,6 +181,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43EFCE4925637E85000E391A /* BorderedWithDeleteButton.swift in Sources */,
 				43B90C93254C505A00D15240 /* AnimatableSystemFontModifier.swift in Sources */,
 				43C7CCBF25300278006FA570 /* EmojiArt.swift in Sources */,
 				43C7CCC225300884006FA570 /* EmojiArtExtensions.swift in Sources */,
