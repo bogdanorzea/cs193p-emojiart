@@ -40,7 +40,7 @@ struct EmojiArtDocumentView: View {
                             }
                             .position(self.position(for: emoji, in: geometry.size))
                             .onTapGesture { self.toggleEmojiSelection(emoji) }
-                            .gesture(self.onDragEmoji())
+                            .gesture(self.onDragEmoji(emoji))
                     }
                 }
                 .clipped()
@@ -69,7 +69,7 @@ struct EmojiArtDocumentView: View {
     }
 
     @GestureState private var gestureEmojiPanOffset: CGSize = .zero
-    func onDragEmoji() -> some Gesture {
+    func onDragEmoji(_ emoji: EmojiArt.Emoji) -> some Gesture {
         DragGesture()
             .updating($gestureEmojiPanOffset) { latestDragGestureValue, gestureEmojiPanOffset, _ in
                 gestureEmojiPanOffset = latestDragGestureValue.translation / self.zoomScale
@@ -77,7 +77,11 @@ struct EmojiArtDocumentView: View {
             .onEnded { finalDragGestureValue in
                 let offset = finalDragGestureValue.translation / self.zoomScale
 
-                self.moveSelectedEmojis(by: offset)
+                if selectedEmojis.contains(matching: emoji) {
+                    self.moveSelectedEmojis(by: offset)
+                } else {
+                    self.document.moveEmoji(emoji, by: offset)
+                }
             }
     }
 
@@ -197,8 +201,8 @@ struct EmojiArtDocumentView: View {
 
 extension Set where Element: Identifiable {
     mutating func toggleMatching(_ item: Element) {
-        if self.contains(matching: item) {
-            self.remove(item)
+        if let index = self.firstIndex(matching: item) {
+            self.remove(at: index)
         } else {
             self.insert(item)
         }
