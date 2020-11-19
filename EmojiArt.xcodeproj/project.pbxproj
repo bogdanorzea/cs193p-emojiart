@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		43B90C90254BA95700D15240 /* OptionalImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B90C8F254BA95700D15240 /* OptionalImage.swift */; };
 		43B90C93254C505A00D15240 /* AnimatableSystemFontModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B90C92254C505A00D15240 /* AnimatableSystemFontModifier.swift */; };
+		43B9A4E62566C7FC00AC51F0 /* Spinning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B9A4E52566C7FC00AC51F0 /* Spinning.swift */; };
+		43B9A4E925672B3000AC51F0 /* PaletteChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B9A4E825672B3000AC51F0 /* PaletteChooser.swift */; };
+		43B9A4EC256730C900AC51F0 /* EmojiArtDocumentPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B9A4EB256730C900AC51F0 /* EmojiArtDocumentPalette.swift */; };
 		43C7CCBF25300278006FA570 /* EmojiArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7CCBE25300278006FA570 /* EmojiArt.swift */; };
 		43C7CCC225300884006FA570 /* EmojiArtExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C7CCC125300884006FA570 /* EmojiArtExtensions.swift */; };
 		43C7CCC725300AAE006FA570 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 43C7CCC625300AAE006FA570 /* .swiftlint.yml */; };
@@ -23,6 +26,9 @@
 /* Begin PBXFileReference section */
 		43B90C8F254BA95700D15240 /* OptionalImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalImage.swift; sourceTree = "<group>"; };
 		43B90C92254C505A00D15240 /* AnimatableSystemFontModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatableSystemFontModifier.swift; sourceTree = "<group>"; };
+		43B9A4E52566C7FC00AC51F0 /* Spinning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spinning.swift; sourceTree = "<group>"; };
+		43B9A4E825672B3000AC51F0 /* PaletteChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteChooser.swift; sourceTree = "<group>"; };
+		43B9A4EB256730C900AC51F0 /* EmojiArtDocumentPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArtDocumentPalette.swift; sourceTree = "<group>"; };
 		43C7CCBE25300278006FA570 /* EmojiArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArt.swift; sourceTree = "<group>"; };
 		43C7CCC125300884006FA570 /* EmojiArtExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArtExtensions.swift; sourceTree = "<group>"; };
 		43C7CCC625300AAE006FA570 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = SOURCE_ROOT; };
@@ -78,6 +84,9 @@
 				43C7CCBE25300278006FA570 /* EmojiArt.swift */,
 				43C7CCC625300AAE006FA570 /* .swiftlint.yml */,
 				43B90C8F254BA95700D15240 /* OptionalImage.swift */,
+				43B9A4E52566C7FC00AC51F0 /* Spinning.swift */,
+				43B9A4E825672B3000AC51F0 /* PaletteChooser.swift */,
+				43B9A4EB256730C900AC51F0 /* EmojiArtDocumentPalette.swift */,
 			);
 			path = EmojiArt;
 			sourceTree = "<group>";
@@ -181,14 +190,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43B9A4EC256730C900AC51F0 /* EmojiArtDocumentPalette.swift in Sources */,
 				43EFCE4925637E85000E391A /* BorderedWithDeleteButton.swift in Sources */,
 				43B90C93254C505A00D15240 /* AnimatableSystemFontModifier.swift in Sources */,
 				43C7CCBF25300278006FA570 /* EmojiArt.swift in Sources */,
 				43C7CCC225300884006FA570 /* EmojiArtExtensions.swift in Sources */,
 				43F12AD6252FF7D900CD1063 /* EmojiArtDocumentView.swift in Sources */,
 				43B90C90254BA95700D15240 /* OptionalImage.swift in Sources */,
+				43B9A4E62566C7FC00AC51F0 /* Spinning.swift in Sources */,
 				43F12AE4252FF95000CD1063 /* EmojiArtDocument.swift in Sources */,
 				43F12AD4252FF7D900CD1063 /* EmojiArtApp.swift in Sources */,
+				43B9A4E925672B3000AC51F0 /* PaletteChooser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
