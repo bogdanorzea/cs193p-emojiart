@@ -28,7 +28,7 @@ struct PaletteChooser: View {
                     showPaletteEditor = true
                 }
                 .popover(isPresented: $showPaletteEditor) {
-                    PaletteEditor(chosenPalette: $chosenPalette)
+                    PaletteEditor(chosenPalette: $chosenPalette, isShowing: $showPaletteEditor)
                         .environmentObject(document)
                         .frame(minWidth: 300, minHeight: 500)
                 }
@@ -41,12 +41,21 @@ struct PaletteEditor: View {
     @EnvironmentObject var document: EmojiArtDocument
 
     @Binding var chosenPalette: String
+    @Binding var isShowing: Bool
     @State var emojisToAdd: String = ""
     @State var paletteName: String = ""
 
     var body: some View {
         VStack(spacing: 0) {
-            Text("Palette editor").font(.headline).padding()
+            ZStack {
+                Text("Palette editor").font(.headline).padding()
+                HStack {
+                    Spacer()
+                    Button("Done") {
+                        self.isShowing = false
+                    }.padding()
+                }
+            }
             Divider()
             Form {
                 Section(header: Text("Palette name")) {
@@ -64,12 +73,14 @@ struct PaletteEditor: View {
                 }
                 Section(header: Text("Remove emoji")) {
                     VStack {
-                        ForEach(chosenPalette.map { String($0) }, id: \.self) { emoji in
+                        Grid(chosenPalette.map { String($0) }, id: \.self) { emoji in
                             Text(emoji)
+                                .font(Font.system(size: self.fontSize))
                                 .onTapGesture {
                                     self.chosenPalette = self.document.removeEmoji(emoji, fromPalette: self.chosenPalette)
                                 }
                         }
+                        .frame(height: self.height)
                     }
                 }
             }
@@ -78,4 +89,9 @@ struct PaletteEditor: View {
             self.paletteName = self.document.paletteNames[self.chosenPalette] ?? ""
         }
     }
+
+    // MARK: - Drawing constants
+    var height: CGFloat { CGFloat((chosenPalette.count - 1) / 6) * 70 + 70 }
+
+    var fontSize: CGFloat = 40
 }

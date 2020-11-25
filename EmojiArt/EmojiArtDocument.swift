@@ -8,9 +8,7 @@
 import SwiftUI
 import Combine
 
-class EmojiArtDocument: ObservableObject {
-    static let pallete = "🍭🚗🚜⚛️🕐🇪🇺"
-
+class EmojiArtDocument: ObservableObject, Hashable, Identifiable {
     static private let minEmojiSize = 10
     static private let maxEmojiSize  = 100
 
@@ -26,21 +24,33 @@ class EmojiArtDocument: ObservableObject {
 
     @Published private var emojiArt: EmojiArt
     private var autoSaveCancellable: AnyCancellable?
+    var id: UUID
 
-    init() {
-        emojiArt = EmojiArt(json: UserDefaults.standard.data(forKey: EmojiArtDocument.untitled)) ?? EmojiArt()
-        autoSaveCancellable = $emojiArt.sink { emojiArt in
+    init(id: UUID? = nil) {
+        self.id = id ?? UUID()
+        let defaultsKey = "EmojiArtDocument.\(self.id)"
+        self.emojiArt = EmojiArt(json: UserDefaults.standard.data(forKey: defaultsKey)) ?? EmojiArt()
+        self.autoSaveCancellable = $emojiArt.sink { emojiArt in
             print(emojiArt)
-            UserDefaults.standard.set(emojiArt.json, forKey: EmojiArtDocument.untitled)
+            UserDefaults.standard.set(emojiArt.json, forKey: defaultsKey)
         }
         fetchBackgroundImageData()
     }
 
-    static private let untitled = "EmojiArtDocument.Untitled"
-
     @Published private(set) var backgroundImage: UIImage?
 
     var emojis: [EmojiArt.Emoji] { emojiArt.emojis }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func == (lhs: EmojiArtDocument, rhs: EmojiArtDocument) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    @Published var steadyStateZoomScale: CGFloat = 1.0
+    @Published var steadyStatePanOffset: CGSize = .zero
 
     // MARK: - Intent(s)
     func addEmoji(_ emoji: String, at location: CGPoint, size: CGFloat) {
