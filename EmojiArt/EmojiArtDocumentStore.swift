@@ -20,7 +20,14 @@ class EmojiArtDocumentStore: ObservableObject {
     }
 
     func setName(_ name: String, for document: EmojiArtDocument) {
-        documentNames[document] = name
+        if let url = directory?.appendingPathComponent(name) {
+            if !documentNames.values.contains(name) {
+                removeDocument(document)
+                document.url = url
+            }
+        } else {
+            documentNames[document] = name
+        }
     }
 
     var documents: [EmojiArtDocument] {
@@ -28,10 +35,20 @@ class EmojiArtDocumentStore: ObservableObject {
     }
 
     func addDocument(named name: String = "Untitled") {
-        documentNames[EmojiArtDocument()] = name
+        let uniqueName = name.uniqued(withRespectTo: documentNames.values)
+        let document: EmojiArtDocument
+        if let url = directory?.appendingPathComponent(uniqueName) {
+            document = EmojiArtDocument(url: url)
+        } else {
+            document = EmojiArtDocument()
+        }
+        documentNames[document] = name
     }
 
     func removeDocument(_ document: EmojiArtDocument) {
+        if let name = documentNames[document], let url = directory?.appendingPathComponent(name) {
+            try? FileManager.default.removeItem(at: url)
+        }
         documentNames[document] = nil
     }
 
@@ -45,6 +62,23 @@ class EmojiArtDocumentStore: ObservableObject {
         documentNames = Dictionary(fromPropertyList: UserDefaults.standard.object(forKey: defaultsKey))
         autosave = $documentNames.sink { names in
             UserDefaults.standard.set(names.asPropertyList, forKey: defaultsKey)
+        }
+    }
+
+    private var directory: URL?
+
+    init(directory: URL) {
+        self.name = directory.lastPathComponent
+        self.directory = directory
+        do {
+            let documents = try FileManager.default.contentsOfDirectory(atPath: directory.path)
+            for document in documents {
+                let url = directory.appendingPathComponent(document)
+                let emojiArtDocument = EmojiArtDocument(url: url)
+                documentNames[emojiArtDocument] = document
+            }
+        } catch {
+            print("EmojiArtDocumentStore: could not create store from directory \(directory) : \(error.localizedDescription)")
         }
     }
 }
