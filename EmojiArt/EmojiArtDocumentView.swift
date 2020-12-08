@@ -65,22 +65,24 @@ struct EmojiArtDocumentView: View {
 
                     return self.drop(providers: providers, at: location)
                 }
-                .navigationBarItems(trailing: Button(action: {
-                    if let url = UIPasteboard.general.url, url != document.backgroundUrl {
-                        self.document.backgroundUrl = url
-                    } else {
-                        self.explainBackgroundPaste = false
-                    }
-                }, label: {
-                    Image(systemName: "doc.on.clipboard").imageScale(.large)
-                        .alert(isPresented: $explainBackgroundPaste) {
-                            Alert(
-                                title: Text("Paste background image"),
-                                message: Text("Copy the url of an image to the clipboard and touch this button to make it the background of this document"),
-                                dismissButton: .default(Text("OK"))
-                            )
+                .navigationBarItems(
+                    leading: pickImage,
+                    trailing: Button(action: {
+                        if let url = UIPasteboard.general.url, url != document.backgroundUrl {
+                            self.document.backgroundUrl = url
+                        } else {
+                            self.explainBackgroundPaste = false
                         }
-                }))
+                    }, label: {
+                        Image(systemName: "doc.on.clipboard").imageScale(.large)
+                            .alert(isPresented: $explainBackgroundPaste) {
+                                Alert(
+                                    title: Text("Paste background image"),
+                                    message: Text("Copy the url of an image to the clipboard and touch this button to make it the background of this document"),
+                                    dismissButton: .default(Text("OK"))
+                                )
+                            }
+                    }))
             }
             .zIndex(-1)
         }.alert(isPresented: $confirmBackgroundPaste) {
@@ -97,9 +99,43 @@ struct EmojiArtDocumentView: View {
 
     @State private var explainBackgroundPaste: Bool = false
     @State private var confirmBackgroundPaste: Bool = false
+    @State private var showImagePicker: Bool = false
 
     private var isLoading: Bool {
         document.backgroundUrl != nil && document.backgroundImage == nil
+    }
+
+    @State private var imagePickerSourceType: UIImagePickerController.SourceType = .camera
+
+    private var pickImage: some View {
+        HStack {
+            Image(systemName: "photo")
+                .imageScale(.large)
+                .foregroundColor(.accentColor)
+                .onTapGesture {
+                    self.imagePickerSourceType = .photoLibrary
+                    self.showImagePicker = true
+                }
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                Image(systemName: "camera")
+                    .imageScale(.large)
+                    .foregroundColor(.accentColor)
+                    .onTapGesture {
+                        self.imagePickerSourceType = .camera
+                        self.showImagePicker = true
+                    }
+            }
+        }
+        .sheet(isPresented: $showImagePicker) {
+            ImagePicker(sourceType: imagePickerSourceType) { image in
+                if image != nil {
+                    DispatchQueue.main.async {
+                        self.document.backgroundUrl = image!.storeInFilesystem()
+                    }
+                }
+                self.showImagePicker = false
+            }
+        }
     }
 
     // MARK: - Emoji gestures
